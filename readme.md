@@ -4,7 +4,7 @@ This is the scaffolding for local WordPress development with Docker for macOS. I
 
 Site root is the wordpress directory. MySQL databases will be stored in the mysqldata directory. You can adjust your php settings in the php/php.ini file. The nginx/certs folder is stored your certificate files.
 
-1. git clone git@github.com:blinmen/WP-Docker-staging.git
+1. git clone https://github.com/blinmen/WP-Docker-staging.git
 2. set your own local domain in the nginx/default.conf
 3. brew install mkcert
    brew install nss # if you use Firefox
