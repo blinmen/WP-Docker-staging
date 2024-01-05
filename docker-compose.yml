@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  nginx:
+#    image: nginx:stable-alpine
+    build:
+      context: .
+      dockerfile: nginx.dockerfile
+    container_name: nginx-wp-staging
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./wordpress:/var/www/html:delegated
+#      - ./nginx:/etc/nginx/conf.d/
+#      - ./nginx/certs:/etc/nginx/certs/self-signed
+    depends_on:
+      - mysql
+      - php
+    links:
+      - mysql
+      - php
+    networks:
+      - wp-staging-network
+
+  php:
+    build:
+      context: .
+      dockerfile: php.dockerfile
+    container_name: php-wp-staging
+    volumes:
+      - ./wordpress:/var/www/html:delegated
+      - ./php:/usr/local/etc/php/conf.d/
+    networks:
+      - wp-staging-network
+
+  mysql:
+    image: mysql:5.7
+    container_name: mysql-wp-staging
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: MySQL-Root-Password
+      MYSQL_DATABASE: wp_staging
+      MYSQL_USER: wp_staging
+      MYSQL_PASSWORD: wp_staging-password
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysqldata:/var/lib/mysql
+    networks:
+      - wp-staging-network
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmin-wp-staging
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      UPLOAD_LIMIT: 256M
+    ports:
+      - "8088:80"
+    networks:
+      - wp-staging-network
+
+networks:
+  wp-staging-network:
+    driver: bridge
