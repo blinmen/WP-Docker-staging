@@ -6,8 +6,8 @@ Site root is the wordpress directory. MySQL databases will be stored in the mysq
 
 1. git clone https://github.com/blinmen/WP-Docker-staging.git
 2. set your own local domain in the nginx/default.conf
-3. brew install mkcert
-   brew install nss # if you use Firefox
+3. brew install mkcert 
+   1. if you use Firefox: brew install nss 
 4. mkcert -install
 5. mkdir nginx/certs
 6. cd nginx/certs
